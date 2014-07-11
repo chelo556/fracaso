@@ -1,0 +1,39 @@
+<?php
+/**
+ *Author Marcelo Barrera
+ * Implementa hook_menu().
+ */
+
+function pruebas_menu() {
+
+  $items['pruebas/rest'] = array(
+    'title' => 'Pruebas',
+    'page callback' => 'pruebas_rest',
+    'access callback' => TRUE,
+  );
+  return $items;
+}
+
+/**
+ * Callback que implementa la páina: sw/rest
+ */
+function pruebas_rest() {
+            $node = node_load(1);
+            //Nombre de la imagen
+	print_r($node);
+	echo "<br>-----------<br><br>";
+
+	print_r($node->field_image[und][0][filename]);
+	echo "<br>-----------<br><br>";
+
+	$terms=field_view_field('node',$node,'field_tags');
+	$term_name = $terms['#items'][0]['taxonomy_term']->name;
+	print_r($term_name);
+	echo "<br>-----------<br><br>";
+
+
+
+}
+
+
+?>

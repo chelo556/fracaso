@@ -1,0 +1,76 @@
+<?php
+/**
+ *Author Marcelo Barrera
+ * Implementa hook_menu().
+ */
+
+function sw_menu() {
+
+  $items['sw/rest'] = array(
+    'title' => 'Saludar',
+    'page callback' => 'sw_rest',
+    'access callback' => TRUE,
+  );
+  return $items;
+}
+
+/**
+ * Callback que implementa la páina: sw/rest
+ */
+function sw_rest() {
+
+  $aux=  include_once('node.php'); 
+  if (!$aux ) {
+	 $arr = 
+	    array(
+	        "fecha" =>" ",
+	        "titulo" => ' ',
+	        "lenguaje" => ' ',
+	        "contenido" => ' ',
+	        "imagen" => ' ',
+	        "comentarios" =>' '    
+	  );
+	  return json_encode($arr);
+  }
+  $index=null;
+  $idNode=null;
+  $comentario=null;
+
+  $index=$_POST["index"];
+  $idNode=$_POST["idNode"];
+  $comentario=$_POST["comentario"];
+
+  $obj = new nodo();
+  //variables post vacias
+  if(empty($index) && empty($idNode) && empty($comentario) ){ 
+    $obj->jsonEmpty();
+  } 
+
+  //información básica de todos los nodos
+  if (!empty($index) && empty($idNode) && empty($comentario)) {
+        $obj->getAll();
+  }
+
+  //Para obtener el nodo, o publicacioón
+  if(!empty($idNode) && empty($comentario) && empty($index)){
+    $aux=(int)$idNode;
+    if ($aux< 10 && $aux > 0)
+	   $obj->getNode($aux);
+    else
+      $obj->jsonEmpty();   
+  }
+  
+  //Agregar comentarios
+  if(!empty($comentario) && !empty($idNode) && empty($index) ) {
+	 $aux=(int)$idNode;
+    if ($aux< 10 && $aux > 0)
+		$obj->addComment($comentario,$aux);
+    else
+      $obj->jsonEmpty();   
+  }
+
+
+}
+
+
+?>
