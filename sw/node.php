@@ -1,4 +1,3 @@
-
 <?php
 #Author Marcelo Barrera
 #
@@ -19,23 +18,39 @@ class nodo{
 	public function getAll(){
 
 	  $articulos=array();
-	  for($i=9; $i>0;$i--){
+	  $i=1;
+	  while(true){
 
 	    $node = node_load($i);                                 
-	    #echo '<br>';
- 
+
 	    //fecha
 	    $fecha = getdate( $node->created );
 	    $fecha = $fecha["mday"]."-".$fecha["mon"]."-".$fecha["year"];
-	    #echo '<br>';
-   
-	    //titulo de la nota, articulo, lo que sea
-	    #print($node->title);
-	    $titulo = $node->title;
-	    #print $comment->comment_body ["und"][0] ["value"];
-	    $arr = array('fecha' => $fecha,'titulo'=>$titulo,'idNode'=>$i );
-            array_push($articulos,$arr);
 
+	    //titulo de la nota, articulo, lo que sea
+	    $titulo = $node->title;
+ 
+            if($fecha == "31-12-1969"){
+		break;
+	    }
+            if($titulo == "null"){
+		continue;
+	    }
+
+
+	    //Categoria o taxonomia
+	    $cat = field_view_field('node',$node,'field_tags'); 
+	    $cat = $cat['#items'][0]['taxonomy_term']->name;
+	
+	    $arr = array(
+			'titulo'=>$titulo,
+			'fecha' => $fecha,
+			'idNode'=>$i,
+			'categoria'=>$cat );
+		
+
+            array_push($articulos,$arr);
+	    $i++;
 	  }
 
 	  $arr = 
