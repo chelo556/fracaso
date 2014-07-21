@@ -1,0 +1,37 @@
+<?php
+/**
+ *Author Marcelo Barrera
+ * Implementa hook_menu().
+ */
+
+function mail_menu() {
+
+  $items['mail'] = array(
+    'title' => 'Mail',
+    'page callback' => 'mail_prueba',
+    'access callback' => TRUE,
+  );
+  return $items;
+}
+
+/**
+ * Callback que implementa la páina: sw/rest
+ */
+function mail_prueba() {
+
+    $from = 'mbarrera@kakhikhelo.net';
+    $body[] = 'Email: marcelobarrera556@gmail.com <br />URL: '.request_uri();
+    $to = 'marcelobarrera556@gmail.com'; // Set this email address - emails will be sent to this email address!
+    $params = array(
+	'subject' => 'hola mundo',
+    	'body' => $body,
+	'subject' => 'hola mundo',
+	    );
+  if( drupal_mail('my_form', 'some_mail_key', $to, language_default(), $params, $from, TRUE)){ return "enviado";}
+	else{
+		return "no enviado";
+	}
+}
+
+
+?>
