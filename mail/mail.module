@@ -19,18 +19,33 @@ function mail_menu() {
  */
 function mail_prueba() {
 
-    $from = 'mbarrera@kakhikhelo.net';
-    $body[] = 'Email: marcelobarrera556@gmail.com <br />URL: '.request_uri();
-    $to = 'marcelobarrera556@gmail.com'; // Set this email address - emails will be sent to this email address!
-    $params = array(
-	'subject' => 'hola mundo',
-    	'body' => $body,
-	'subject' => 'hola mundo',
-	    );
-  if( drupal_mail('my_form', 'some_mail_key', $to, language_default(), $params, $from, TRUE)){ return "enviado";}
-	else{
-		return "no enviado";
-	}
+    $module = 'module_name';
+    $key = 'key';
+    $language = language_default();
+    $params = array();
+    $from = NULL;
+    $send = FALSE;
+    $message = drupal_mail($module, $key,"marcelobarrera556@gmail.com" , $language, $params, "mbarrera@kakhikhelo.net", $send);
+    $message['subject'] = "fracaso3";
+    $message['body'] = array();
+    $message['body'][] = "some";
+    $message['body'][] =htmlentities('<h1>some2</h1>');
+    $message['headers']['Content-Type'] = 'text/html; charset=UTF-8;';
+
+    // Retrieve the responsible implementation for this message.
+    $system = drupal_mail_system($module, $key);
+
+
+    // Format the message body.
+    $message = $system->format($message);
+
+
+    // Send e-mail.
+   // $message['result'] = $system->mail($message);
+	
+	if ($system->mail($message)){return "enviado";}
+	else {return "no enviado";}
+
 }
 
 
