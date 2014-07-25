@@ -1,23 +1,24 @@
 <?php 
 function mimodulo_install(){
-	  // use get_t() to get the name of our localization function for translation
+	
+  // use get_t() to get the name of our localization function for translation
   // during install, when t() is not available.
-   $t = get_t();
+  $t = get_t();
   $node_example = array(
-    'type' => 'node_example',
-    'name' => $t('Example Node'),
+    'type' => 'nameXXXXXX',
+    'name' => $t('nameXXXXXX'),
     'base' => 'node_content',
-    'description' => $t('This is an example node type with a few fields.'),
-    'body_label' => $t('Example Description')
+    'description' => $t('Tipo de contenido para el modulo nameXXXXXX.'),
+    'body_label' => $t('Genera las publicaciones necesarias para el moduloe nameXXXXXX')
   );
   // Complete the node type definition by setting any defaults not explicitly
   // declared above.
   // http://api.drupal.org/api/function/node_type_set_defaults/7
   $content_type = node_type_set_defaults($node_example);
   node_add_body_field($content_type);
-// Check if we create content type or update.
+  // Check if we create content type or update.
   $status = node_type_save($content_type);
-// Replacement rule for the messages.
+  // Replacement rule for the messages.
   $t_args = array('%name' => $content_type->name);
   if ($status == SAVED_UPDATED) { // update case
     drupal_set_message($t('The content type %name has been updated.', $t_args));
@@ -35,7 +36,7 @@ function mimodulo_uninstall() {
   // module was enabled.  Simple selects still use db_query().
   // http://api.drupal.org/api/function/db_query/7
   $sql = 'SELECT nid FROM {node} n WHERE n.type = :type';
-  $result = db_query($sql, array(':type' => 'node_example'));
+  $result = db_query($sql, array(':type' => 'nameXXXXXX'));
   $nids = array();
   foreach ($result as $row) {
     $nids[] = $row->nid;
@@ -45,7 +46,7 @@ function mimodulo_uninstall() {
   node_delete_multiple($nids);
   // Delete our content type
   // http://api.drupal.org/api/function/node_type_delete/7
-  node_type_delete('node_example');
+  node_type_delete('nameXXXXXX');
 }
 
 ?>

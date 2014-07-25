@@ -1,0 +1,4 @@
+name = productcustomtype
+description = A new content type of Product
+package = Product Custom node Type
+core = 7.x
